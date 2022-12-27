@@ -15,10 +15,10 @@ builder.Services.AddMassTransit(cfg =>
     cfg.SetKebabCaseEndpointNameFormatter();
     cfg.UsingRabbitMq((cxt, rabbitCfg) => 
     {
-        rabbitCfg.Host(builder.Configuration["rabbitmq"], x =>
+        rabbitCfg.Host("rabbitmq", x =>
         {
-            x.Username(builder.Configuration["guest"]);
-            x.Password(builder.Configuration["guest"]);
+            x.Username("guest");
+            x.Password("guest");
         });
 
         rabbitCfg.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(3), TimeSpan.FromMinutes(5)));
@@ -30,8 +30,8 @@ builder.Services.AddMassTransit(cfg =>
     cfg.AddSagaStateMachine<TestStateMachine, TestState>()
         .MongoDbRepository(x =>
         {
-            x.Connection = builder.Configuration["mongodb://mongodb"];
-            x.DatabaseName = builder.Configuration["testsagadb"];
+            x.Connection = "mongodb://mongodb";
+            x.DatabaseName = "testsagadb";
         })
         .Endpoint(x => 
         {
