@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomatonymousTest.Common",
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{922330BE-62C8-430C-8D34-DAC4EFE82533}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatonymousTest.SagaTest", "AutomatonymousTest.SagaTest\AutomatonymousTest.SagaTest.csproj", "{DA99F704-7279-4E3B-B756-4B41A172311D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{922330BE-62C8-430C-8D34-DAC4EFE82533}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{922330BE-62C8-430C-8D34-DAC4EFE82533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{922330BE-62C8-430C-8D34-DAC4EFE82533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA99F704-7279-4E3B-B756-4B41A172311D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA99F704-7279-4E3B-B756-4B41A172311D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA99F704-7279-4E3B-B756-4B41A172311D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA99F704-7279-4E3B-B756-4B41A172311D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
