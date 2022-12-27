@@ -22,4 +22,8 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AutomatonymousTest.Common\AutomatonymousTest.Common.csproj" />
+  </ItemGroup>
+
 </Project>
