@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AutomatonymousTest.Common.Commands
 {
-    public interface DoC
+    public interface StartTestSaga
     {
-        Guid ItemId { get; set; }
+        Guid Id { get; }
     }
 }

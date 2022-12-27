@@ -8,6 +8,6 @@ namespace AutomatonymousTest.Common.Events
 {
     public interface CDone
     {
-        Guid ItemId { get; set; }
+        Guid ItemId { get; }
     }
 }
