@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutomatonymousTest.Common.Events
 {
-    public interface BDone
+    public record BDone
     {
         Guid ItemId { get; }
     }

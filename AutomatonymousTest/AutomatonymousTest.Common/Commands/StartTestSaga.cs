@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutomatonymousTest.Common.Commands
 {
-    public interface StartTestSaga
+    public record StartTestSaga
     {
         Guid Id { get; }
     }

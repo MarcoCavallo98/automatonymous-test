@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutomatonymousTest.Common.Events
 {
-    public interface CDone
+    public record CDone
     {
         Guid ItemId { get; }
     }
