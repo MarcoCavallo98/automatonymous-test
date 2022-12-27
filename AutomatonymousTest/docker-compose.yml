@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  automatonymoustest.servicea:
+    image: ${DOCKER_REGISTRY-}automatonymoustestservicea
+    build:
+      context: .
+      dockerfile: AutomatonymousTest.ServiceA/Dockerfile
+    ports:
+      - 7148:443
+  
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    environment:
+      mongo_initdb_root_username: root
+      mongo_initdb_root_password: example
+    ports:
+      - 27017:27017
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672

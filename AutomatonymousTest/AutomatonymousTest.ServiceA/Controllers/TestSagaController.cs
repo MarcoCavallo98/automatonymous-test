@@ -10,10 +10,10 @@ namespace AutomatonymousTest.ServiceA.Controllers
     [ApiController]
     public class TestSagaController : ControllerBase
     {
-        private readonly IBus _bus;
+        private readonly ISendEndpointProvider _bus;
         private readonly ILogger<TestSagaController> _logger;
 
-        public TestSagaController(IBus bus, ILogger<TestSagaController> logger)
+        public TestSagaController(ISendEndpointProvider bus, ILogger<TestSagaController> logger)
         {
             _bus = bus;
             _logger = logger;
@@ -22,16 +22,18 @@ namespace AutomatonymousTest.ServiceA.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(APIResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(APIResponse<string?>), StatusCodes.Status500InternalServerError)]
-        public IActionResult StartSaga()
+        public async Task<IActionResult> StartSaga()
         {
             try
             {
                 var id = NewId.NextGuid();
-                _bus.Send<StartTestSaga>(new
+                var endpoint = await _bus.GetSendEndpoint(new Uri("queue:test-saga"));
+                using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                await endpoint.Send<StartTestSaga>(new
                 {
                     Id = NewId.NextGuid(),
                     Name = $"Test {Guid.NewGuid()}"
-                });
+                }, timeout.Token);
 
                 _logger.LogInformation($"Starting saga: {id}");
 
