@@ -34,13 +34,13 @@ namespace AutomatonymousTest.ServiceA.Sagas.StateMachines
                         x.Saga.LastStateUpdate = DateTime.UtcNow;
                         x.Saga.Name = x.Message.Name;
                     })
-                    .Publish(ctx => new DoB { ItemId = ctx.Saga.ItemId })
+                    .Send(new Uri("queue:service-b"), ctx => new DoB { ItemId = ctx.Saga.CorrelationId })
                     .TransitionTo(DoingB));
 
             During(DoingB,
                 When(BDoneEvent)
                     .Then(x => x.Saga.LastStateUpdate = DateTime.UtcNow)
-                    .Publish(ctx => new DoC { ItemId = ctx.Saga.ItemId })
+                    .Send(new Uri("queue:service-c"), ctx => new DoC { ItemId = ctx.Saga.CorrelationId })
                     .TransitionTo(DoingC));
 
             During(DoingC,
