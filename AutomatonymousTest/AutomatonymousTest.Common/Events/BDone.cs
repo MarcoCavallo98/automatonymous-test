@@ -8,6 +8,6 @@ namespace AutomatonymousTest.Common.Events
 {
     public record BDone
     {
-        Guid ItemId { get; }
+        public Guid ItemId { get; }
     }
 }
