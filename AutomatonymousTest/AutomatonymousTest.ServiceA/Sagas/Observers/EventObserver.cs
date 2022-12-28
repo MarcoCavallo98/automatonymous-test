@@ -5,7 +5,7 @@ namespace AutomatonymousTest.ServiceA.Sagas.Observers
 {
     public class EventObserver : IEventObserver<TestState>
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public EventObserver(ILogger logger)
         {
@@ -26,25 +26,25 @@ namespace AutomatonymousTest.ServiceA.Sagas.Observers
 
         public Task PostExecute(BehaviorContext<TestState> context)
         {
-            _logger.LogInformation(context.Event.Name);
+            _logger.LogDebug("Handled event {Name}", context.Event.Name);
             return Task.CompletedTask;
         }
 
         public Task PostExecute<T>(BehaviorContext<TestState, T> context) where T : class
         {
-            _logger.LogInformation(context.Event.Name);
+            _logger.LogDebug("Handled event {Name}", context.Event.Name);
             return Task.CompletedTask;
         }
 
         public Task PreExecute(BehaviorContext<TestState> context)
         {
-            _logger.LogInformation(context.Event.Name);
+            _logger.LogDebug("Received event {Name}", context.Event.Name);
             return Task.CompletedTask;
         }
 
         public Task PreExecute<T>(BehaviorContext<TestState, T> context) where T : class
         {
-            _logger.LogInformation(context.Event.Name);
+            _logger.LogDebug("Received event {Name}", context.Event.Name);
             return Task.CompletedTask;
         }
     }

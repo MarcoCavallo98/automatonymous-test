@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AutomatonymousTest.ServiceC": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

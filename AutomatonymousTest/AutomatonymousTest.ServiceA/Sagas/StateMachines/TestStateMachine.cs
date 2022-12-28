@@ -39,7 +39,7 @@ namespace AutomatonymousTest.ServiceA.Sagas.StateMachines
                     .Then(x =>
                     {
                         x.Saga.LastStateUpdate = DateTime.UtcNow;
-                        x.Saga.Name = x.Message.Name;
+                        x.Saga.Name = $"Test_{x.Message.Id}";
                     })
                     .TransitionTo(DoingB)
                     .Send(new Uri("queue:service-b"), ctx => new DoB { Id = ctx.Saga.CorrelationId }));
@@ -52,11 +52,15 @@ namespace AutomatonymousTest.ServiceA.Sagas.StateMachines
                         _logger.LogInformation("Moving to DoingC state"); 
                     })
                     .TransitionTo(DoingC)
-                    .Send(new Uri("queue:service-c"), ctx => new DoC { ItemId = ctx.Saga.CorrelationId }));
+                    .Send(new Uri("queue:service-c"), ctx => new DoC { Id = ctx.Saga.CorrelationId }));
 
             During(DoingC,
                 When(CDoneEvent)
-                    .Then(x => x.Saga.LastStateUpdate = DateTime.UtcNow)
+                    .Then(x =>
+                    {
+                        x.Saga.LastStateUpdate = DateTime.UtcNow;
+                        _logger.LogInformation("Completing SAGA {Name}", x.Saga.Name);
+                    })
                     .Finalize());
 
             SetCompletedWhenFinalized();

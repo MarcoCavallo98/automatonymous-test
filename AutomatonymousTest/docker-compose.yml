@@ -35,3 +35,10 @@ services:
       context: .
       dockerfile: AutomatonymousTest.ServiceB/Dockerfile
 
+
+  automatonymoustest.servicec:
+    image: ${DOCKER_REGISTRY-}automatonymoustestservicec
+    build:
+      context: .
+      dockerfile: AutomatonymousTest.ServiceC/Dockerfile
+

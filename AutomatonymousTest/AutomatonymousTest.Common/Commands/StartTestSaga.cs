@@ -9,6 +9,5 @@ namespace AutomatonymousTest.Common.Commands
     public record StartTestSaga
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
     }
 }
