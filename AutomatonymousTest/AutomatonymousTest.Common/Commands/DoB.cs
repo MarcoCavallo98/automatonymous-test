@@ -8,6 +8,6 @@ namespace AutomatonymousTest.Common.Commands
 {
     public record DoB
     {
-        public Guid ItemId { get; set; }
+        public Guid Id { get; set; }
     }
 }

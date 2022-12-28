@@ -1,5 +1,6 @@
 ﻿using AutomatonymousTest.Common.Commands;
 using AutomatonymousTest.Common.Events;
+using AutomatonymousTest.ServiceA.Sagas.Observers;
 using AutomatonymousTest.ServiceA.Sagas.States;
 using MassTransit;
 
@@ -7,6 +8,8 @@ namespace AutomatonymousTest.ServiceA.Sagas.StateMachines
 {
     public class TestStateMachine : MassTransitStateMachine<TestState>
     {
+        private readonly ILogger<TestStateMachine> _logger;
+
         #region states
         public State DoingB { get; private set; }
         public State DoingC { get; private set; }
@@ -18,14 +21,18 @@ namespace AutomatonymousTest.ServiceA.Sagas.StateMachines
         public Event<CDone> CDoneEvent { get; private set; }
         #endregion
 
-        public TestStateMachine()
+        public TestStateMachine(ILogger<TestStateMachine> logger)
         {
+            _logger = logger;
+
+            ConnectEventObserver(new EventObserver(logger));
+
             InstanceState(x => x.CurrentState);
 
 
-            Event(() => StartTestSagaCommand, x => x.CorrelateById(context => context.Message.Id));
-            Event(() => BDoneEvent, x => x.CorrelateById(context => context.Message.ItemId));
-            Event(() => CDoneEvent, x => x.CorrelateById(context => context.Message.ItemId));
+            Event(() => StartTestSagaCommand, e => e.CorrelateById(context => context.Message.Id));
+            Event(() => BDoneEvent, e => e.CorrelateById(context => context.Message.Id));
+            Event(() => CDoneEvent, e => e.CorrelateById(context => context.Message.Id));
 
             Initially(
                 When(StartTestSagaCommand)
@@ -34,14 +41,18 @@ namespace AutomatonymousTest.ServiceA.Sagas.StateMachines
                         x.Saga.LastStateUpdate = DateTime.UtcNow;
                         x.Saga.Name = x.Message.Name;
                     })
-                    .Send(new Uri("queue:service-b"), ctx => new DoB { ItemId = ctx.Saga.CorrelationId })
-                    .TransitionTo(DoingB));
+                    .TransitionTo(DoingB)
+                    .Send(new Uri("queue:service-b"), ctx => new DoB { Id = ctx.Saga.CorrelationId }));
 
             During(DoingB,
                 When(BDoneEvent)
-                    .Then(x => x.Saga.LastStateUpdate = DateTime.UtcNow)
-                    .Send(new Uri("queue:service-c"), ctx => new DoC { ItemId = ctx.Saga.CorrelationId })
-                    .TransitionTo(DoingC));
+                    .Then(x => 
+                    { 
+                        x.Saga.LastStateUpdate = DateTime.UtcNow;
+                        _logger.LogInformation("Moving to DoingC state"); 
+                    })
+                    .TransitionTo(DoingC)
+                    .Send(new Uri("queue:service-c"), ctx => new DoC { ItemId = ctx.Saga.CorrelationId }));
 
             During(DoingC,
                 When(CDoneEvent)

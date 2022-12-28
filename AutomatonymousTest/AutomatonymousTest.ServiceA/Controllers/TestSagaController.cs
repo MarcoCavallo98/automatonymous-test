@@ -31,11 +31,11 @@ namespace AutomatonymousTest.ServiceA.Controllers
                 using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
                 await endpoint.Send<StartTestSaga>(new
                 {
-                    Id = NewId.NextGuid(),
-                    Name = $"Test {Guid.NewGuid()}"
+                    Id = id,
+                    Name = $"Test {id}"
                 }, timeout.Token);
 
-                _logger.LogInformation($"Starting saga: {id}");
+                _logger.LogInformation($"Starting a new saga");
 
                 return Ok(new APIResponse<string> { ErrorCode = -1, Description = "OK", Body = id.ToString() });
             }

@@ -1,8 +1,16 @@
 using AutomatonymousTest.ServiceA.Sagas.StateMachines;
 using AutomatonymousTest.ServiceA.Sagas.States;
 using MassTransit;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((host, log) => 
+{
+    log.MinimumLevel.Override("Microsoft", LogEventLevel.Warning);
+    log.WriteTo.Console();
+});
 
 // Add services to the container.
 

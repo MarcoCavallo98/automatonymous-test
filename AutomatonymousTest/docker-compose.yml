@@ -27,3 +27,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+
+
+  automatonymoustest.serviceb:
+    image: ${DOCKER_REGISTRY-}automatonymoustestserviceb
+    build:
+      context: .
+      dockerfile: AutomatonymousTest.ServiceB/Dockerfile
+
